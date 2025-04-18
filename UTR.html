@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Urbanexis – Kondotty to KMCT IETM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+    <style>
+        :root {
+            --primary: #007bff;
+            --secondary: #6c757d;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --text-dark: #212529;
+            --text-muted: #6c757d;
+            --border-color: #dee2e6;
+            --box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--primary);
+            color: var(--light);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            box-shadow: var(--box-shadow);
+        }
+
+         .logo {
+            width: 130px; /* Adjusted logo size */
+            height: 130px; /* Ensure it's a circle */
+            border-radius: 50%; /* Creates the circular shape */
+            object-fit: cover; /* Ensures the image covers the circle without distortion */
+            margin-bottom: 0;
+            order: -1;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional shadow for depth */
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        header p {
+            margin-left: 1rem;
+            font-size: 0.9rem;
+            color: var(--light);
+        }
+
+        .container {
+            display: flex;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .main {
+            flex: 2;
+            padding-right: 2rem;
+        }
+
+        .journey-details-card {
+            background-color: #fff;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .journey-details-card h2 {
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            font-size: 1.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            display: none; /* Hidden until button is clicked */
+        }
+
+        .route-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            align-items: center;
+        }
+
+        .route-inputs input[type="text"] {
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .route-button {
+            background-color: var(--primary);
+            color: var(--light);
+            border: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .route-button:hover {
+            background-color: #0056b3;
+        }
+
+        #recommended-route,
+        #alternative-route {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: var(--light);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+        }
+
+        #recommended-route h3,
+        #alternative-route h3 {
+            color: var(--secondary);
+            font-size: 1.25rem;
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+
+        .schedule-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .schedule-item:last-child {
+            border-bottom: none;
+        }
+
+        .schedule-item div:first-child {
+            flex-grow: 1;
+        }
+
+        .schedule-item strong {
+            font-weight: 500;
+            color: var(--text-dark);
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .schedule-item small {
+            color: var(--text-muted);
+            display: block;
+            font-size: 0.85rem;
+        }
+
+        .schedule-item .time-pill {
+            display: inline-block;
+            background-color: #e9ecef;
+            color: var(--text-muted);
+            padding: 0.3rem 0.6rem;
+            border-radius: 1rem;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+
+        .map-container {
+            background-color: #fff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .map-container h2 {
+            color: var(--primary);
+            font-size: 1.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+
+        .map-image {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            display: block;
+        }
+
+        #map {
+            height: 300px;
+            margin-top: 1rem;
+            border-radius: 4px;
+        }
+
+
+    .cards-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        padding: 20px;
+        margin-bottom: auto; /* Push footer to bottom */
+    }
+
+    .card {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        width: 300px;
+        text-align: left;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover{
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .card h2 {
+        font-size: 1.5rem;
+        color: #003366;
+        margin-bottom: 10px;
+    }
+
+    .card p {
+        font-size: 1rem;
+        color: #555;
+        margin-bottom: 5px;
+    }
+
+    .ad-card {
+        background-color: #f0f4c3;
+        border-left: 5px solid #c6ae00;
+    }
+
+    .ad-card h2 {
+        color: #8b4513;
+    }
+
+        footer {
+        text-align: center; /* Centers the text horizontally */
+        padding: 1rem 0;
+        background-color: navy; /* Changed background color to navy blue */
+        color: white; /* Changed text color to white */
+        font-size: 0.9rem;
+            }
+
+        @media (max-width: 992px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .main {
+                padding-right: 0;
+                margin-bottom: 1.5rem;
+            }
+
+            .ads-column {
+                padding-left: 0;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .route-inputs {
+                grid-template-columns: 1fr;
+            }
+
+            .route-button {
+                width: 100%;
+            }
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            header p {
+                margin-left: 0;
+                margin-top: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="urbanexis_logo-removebg-preview1.png" alt="Urbanexis Logo" class="logo">
+        <div>
+            <h1>Urbanexis</h1>
+            <p>Connecting You to Your Destination</p>
+        </div>
+    </header>
+    <div class="container">
+        <div class="main">
+            <div class="journey-details-card">
+                <h2 id="journey-title">Journey Details</h2>
+                <div class="route-inputs">
+                    <input type="text" id="start" placeholder="Starting From" value="Kondotty Bus Stand">
+                    <input type="text" id="destination" placeholder="Destination" value="KMCT IETM">
+                    <button class="route-button" id="show-route">Show Route</button>
+                </div>
+
+                <div id="recommended-route" style="display:none;">
+                    <h3>Recommended Route</h3>
+                    <div class="schedule-item">
+                        <div>
+                            <strong>Bus 1:</strong> Kondotty → Edavannappara<br>
+                            <small>Bus No: KDT‑101</small>
+                        </div>
+                        <div>
+                            <span class="time-pill">~20 min</span><br>
+                            <span class="time-pill">06:00 AM</span>
+                            <span class="time-pill">08:30 AM</span>
+                            <span class="time-pill">11:00 AM</span>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div>
+                            <strong>Bus 2:</strong> Edavannappara → Mavoor<br>
+                            <small>Bus No: MVR‑202</small>
+                        </div>
+                        <div>
+                            <span class="time-pill">~5 min</span><br>
+                            <span class="time-pill">06:25 AM</span>
+                            <span class="time-pill">08:55 AM</span>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div>
+                            <strong>Bus 3:</strong> Mavoor → Manassery<br>
+                            <small>Bus No: MAN‑303</small>
+                        </div>
+                        <div>
+                            <span class="time-pill">~20 min</span><br>
+                            <span class="time-pill">06:30 AM</span>
+                            <span class="time-pill">09:00 AM</span>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div>
+                            <strong>Bus 4:</strong> Manassery → KMCT IETM<br>
+                            <small>Bus No: KCT‑404</small>
+                        </div>
+                        <div>
+                            <span class="time-pill">~5 min</span><br>
+                            <span class="time-pill">06:50 AM</span>
+                            <span class="time-pill">09:20 AM</span>
+                        </div>
+                    </div>
+                    <div style="padding-top:1rem; font-weight:600; color: var(--secondary);">
+                        Total Estimated Journey Time: ~50 Minutes
+                    </div>
+                </div>
+
+                <div id="alternative-route" style="display:none;">
+                    <h3>Alternative Route</h3>
+                    <div class="schedule-item">
+                        <div>
+                            <strong>Bus 1:</strong> Kondotty Bus Stand → Kozhikode Bus Stand<br>
+                            <small>Bus No: KDT-CLT-001</small>
+                        </div>
+                        <div>
+                            <span class="time-pill">~1 hour</span><br>
+                            <span class="time-pill">07:00 AM</span>
+                            <span class="time-pill">09:00 AM</span>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div>
+                            <strong>Bus 2:</strong> Kozhikode Bus Stand → Manassery<br>
+                            <small>Bus No: CLT-MAN-002</small>
+                        </div>
+                        <div>
+                            <span class="time-pill">~1 hour</span><br>
+                            <span class="time-pill">08:15 AM</span>
+                            <span class="time-pill">10:15 AM</span>
+                            <span class="time-pill">12:15 PM</span>
+                        </div>
+                    </div>
+                    <div class="schedule-item">
+                        <div>
+                            <strong>Bus 3:</strong> Manassery → KMCT IETM<br>
+                            <small>Bus No: KCT‑404</small>
+                        </div>
+                        <div>
+                            <span class="time-pill">~5 min</span><br>
+                            <span class="time-pill">09:20 AM</span>
+                            <span class="time-pill">11:20 AM</span>
+                        </div>
+                    </div>
+                    <div style="padding-top:1rem; font-weight:600; color: var(--secondary);">
+                        Total Estimated Journey Time: ~2 hours 5 minutes
+                    </div>
+                </div>
+            </div>
+
+            <div class="map-container">
+                <h2 id="map-title">Route Map</h2>
+                <img src="maproute.png" alt="Route Map" class="map-image">
+                <div id="map"></div>
+            </div>
+        </div>
+
+        <div class="ads-column">
+            <section class="cards-container">
+        <div class="card">
+            <h2>Edavannappara Eats</h2>
+            <p>🍵 Café Aroma — Open 7 AM–9 PM</p>
+            <p>🍴 Quick Bites — Popular for evening snacks</p>
+        </div>
+        <div class="card">
+            <h2>Mavoor Snacks</h2>
+            <p>🍪 Tea House Express — Best filter coffee</p>
+            <p>🌯 Snack Station — Local favourite chaat</p>
+        </div>
+        <div class="card">
+            <h2>Manassery Food Hub</h2>
+            <p>🍔 Thattukada Treats — Street food delights</p>
+            <p>🍱 Tea & Meals Corner — Budget combos</p>
+        </div>
+        <div class="card">
+            <h2>KMCT Campus Café</h2>
+            <p>🍵 Tea & Snacks Shop — Fresh tea & samosas</p>
+        </div>
+
+        <div class="card ad-card">
+            <h2>🌟 Ad: New Café Opening!</h2>
+            <p>🥐 City Bakes — Grand opening with 50% off on all items</p>
+            <p>📍 Near KMCT Bus Stop</p>
+        </div>
+    </section>
+
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2025 Urbanexis. All rights reserved.
+    </footer>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+<script>
+  // Wait until the DOM is fully loaded
+  document.addEventListener('DOMContentLoaded', function () {
+    // Route display logic
+    document.getElementById('show-route').addEventListener('click', function () {
+      document.getElementById('journey-title').style.display = 'block';
+      document.getElementById('recommended-route').style.display = 'block';
+      document.getElementById('alternative-route').style.display = 'block';
+    });
+
+    // Map initialization
+    var map = L.map('map').setView([11.3178, 75.9700], 12); // Center between Kondotty and KMCT
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+  });
+</script>
