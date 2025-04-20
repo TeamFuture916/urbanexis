@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+<<<<<<< HEAD
+    <title>Urbanexis </title>
+=======
     <title>Urbanexis</title>
+>>>>>>> 67bebe95185a654e4b891c04d7cd9d21aaee8aa1
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
     <style>
@@ -36,14 +40,14 @@
             box-shadow: var(--box-shadow);
         }
 
-         .logo {
-            width: 130px; /* Adjusted logo size */
-            height: 130px; /* Ensure it's a circle */
-            border-radius: 50%; /* Creates the circular shape */
-            object-fit: cover; /* Ensures the image covers the circle without distortion */
+        .logo {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            object-fit: cover;
             margin-bottom: 0;
             order: -1;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Optional shadow for depth */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
 
         header h1 {
@@ -84,7 +88,7 @@
             font-size: 1.75rem;
             font-weight: 600;
             letter-spacing: 0.5px;
-            display: none; /* Hidden until button is clicked */
+            display: none;
         }
 
         .route-inputs {
@@ -197,63 +201,70 @@
         }
 
         #map {
-            height: 300px;
+            height: 400px;
             margin-top: 1rem;
             border-radius: 4px;
+            z-index: 1;
         }
 
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+            margin-bottom: auto;
+        }
 
-    .cards-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 20px;
-        padding: 20px;
-        margin-bottom: auto; /* Push footer to bottom */
-    }
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
 
-    .card {
-        background-color: white;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        width: 300px;
-        text-align: left;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .card:hover{
-        transform: translateY(-5px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-    }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
 
-    .card h2 {
-        font-size: 1.5rem;
-        color: #003366;
-        margin-bottom: 10px;
-    }
+        .card h2 {
+            font-size: 1.5rem;
+            color: #003366;
+            margin-bottom: 10px;
+        }
 
-    .card p {
-        font-size: 1rem;
-        color: #555;
-        margin-bottom: 5px;
-    }
+        .card p {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 5px;
+        }
 
-    .ad-card {
-        background-color: #f0f4c3;
-        border-left: 5px solid #c6ae00;
-    }
+        .ad-card {
+            background-color: #f0f4c3;
+            border-left: 5px solid #c6ae00;
+        }
 
-    .ad-card h2 {
-        color: #8b4513;
-    }
+        .ad-card h2 {
+            color: #8b4513;
+        }
 
         footer {
-        text-align: center; /* Centers the text horizontally */
-        padding: 1rem 0;
-        background-color: navy; /* Changed background color to navy blue */
-        color: white; /* Changed text color to white */
-        font-size: 0.9rem;
-            }
+            text-align: center;
+            padding: 1rem 0;
+            background-color: navy;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .bus-icon {
+            font-size: 24px;
+            transform: rotate(90deg);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
 
         @media (max-width: 992px) {
             .container {
@@ -412,55 +423,99 @@
 
         <div class="ads-column">
             <section class="cards-container">
-        <div class="card">
-            <h2>Edavannappara Eats</h2>
-            <p>🍵 Café Aroma — Open 7 AM–9 PM</p>
-            <p>🍴 Quick Bites — Popular for evening snacks</p>
-        </div>
-        <div class="card">
-            <h2>Mavoor Snacks</h2>
-            <p>🍪 Tea House Express — Best filter coffee</p>
-            <p>🌯 Snack Station — Local favourite chaat</p>
-        </div>
-        <div class="card">
-            <h2>Manassery Food Hub</h2>
-            <p>🍔 Thattukada Treats — Street food delights</p>
-            <p>🍱 Tea & Meals Corner — Budget combos</p>
-        </div>
-        <div class="card">
-            <h2>KMCT Campus Café</h2>
-            <p>🍵 Tea & Snacks Shop — Fresh tea & samosas</p>
-        </div>
-
-        <div class="card ad-card">
-            <h2>🌟 Ad: New Café Opening!</h2>
-            <p>🥐 City Bakes — Grand opening with 50% off on all items</p>
-            <p>📍 Near KMCT Bus Stop</p>
-        </div>
-    </section>
-
+                <div class="card">
+                    <h2>Edavannappara Eats</h2>
+                    <p>🍵 Café Aroma — Open 7 AM–9 PM</p>
+                    <p>🍴 Quick Bites — Popular for evening snacks</p>
+                </div>
+                <div class="card">
+                    <h2>Mavoor Snacks</h2>
+                    <p>🍪 Tea House Express — Best filter coffee</p>
+                    <p>🌯 Snack Station — Local favourite chaat</p>
+                </div>
+                <div class="card">
+                    <h2>Manassery Food Hub</h2>
+                    <p>🍔 Thattukada Treats — Street food delights</p>
+                    <p>🍱 Tea & Meals Corner — Budget combos</p>
+                </div>
+                <div class="card">
+                    <h2>KMCT Campus Café</h2>
+                    <p>🍵 Tea & Snacks Shop — Fresh tea & samosas</p>
+                </div>
+                <div class="card ad-card">
+                    <h2>🌟 Ad: New Café Opening!</h2>
+                    <p>🥐 City Bakes — Grand opening with 50% off on all items</p>
+                    <p>📍 Near KMCT Bus Stop</p>
+                </div>
+            </section>
         </div>
     </div>
 
     <footer>
         &copy; 2025 Urbanexis. All rights reserved.
     </footer>
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
-<script>
-  // Wait until the DOM is fully loaded
-  document.addEventListener('DOMContentLoaded', function () {
-    // Route display logic
-    document.getElementById('show-route').addEventListener('click', function () {
-      document.getElementById('journey-title').style.display = 'block';
-      document.getElementById('recommended-route').style.display = 'block';
-      document.getElementById('alternative-route').style.display = 'block';
-    });
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let map;
+            let busMarker;
+            let animationInterval;
+            let currentStep = 0;
 
-    // Map initialization
-    var map = L.map('map').setView([11.3178, 75.9700], 12); // Center between Kondotty and KMCT
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
-  });
-</script>
+            const routeCoordinates = [
+                [11.14637160338918, 75.96345468024207], // Kondotty
+                [11.24527214038329, 75.97558502442538],
+                [11.26121187905074, 75.95432909558927],
+                [11.318858912334855, 75.93927599559025],
+                [11.321647792676826, 75.96737372982932],
+                [11.345631834071911, 75.96236403791788], // KMCT IETM
+            ];
+
+            const busIcon = L.divIcon({
+                className: 'bus-icon',
+                html: '🚌',
+                iconSize: [40, 40],
+            });
+
+            function resetAnimation() {
+                if (busMarker) map.removeLayer(busMarker);
+                currentStep = 0;
+                clearInterval(animationInterval);
+            }
+
+            function animateBus() {
+                if (currentStep < routeCoordinates.length) {
+                    const coord = routeCoordinates[currentStep];
+                    if (!busMarker) {
+                        busMarker = L.marker(coord, { icon: busIcon }).addTo(map);
+                    } else {
+                        busMarker.setLatLng(coord);
+                    }
+                    map.panTo(coord);
+                    currentStep++;
+                } else {
+                    clearInterval(animationInterval);
+                }
+            }
+
+            document.getElementById('show-route').addEventListener('click', function () {
+                document.getElementById('journey-title').style.display = 'block';
+                document.getElementById('recommended-route').style.display = 'block';
+                document.getElementById('alternative-route').style.display = 'block';
+
+                if (!map) {
+                    map = L.map('map').setView(routeCoordinates[0], 14);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; OpenStreetMap contributors'
+                    }).addTo(map);
+                    L.polyline(routeCoordinates, { color: 'blue' }).addTo(map);
+                }
+
+                resetAnimation();
+                animationInterval = setInterval(animateBus, 5000); // 5-second interval
+            });
+        });
+    </script>
+</body>
+</html>
